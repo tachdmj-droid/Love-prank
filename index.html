@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>আপনার জন্য একটি উপহার 💖</title>
+    <title>15 সেকেন্ড পর একটি উপহার আছে  💖</title>
     <style>
         * {
             margin: 0;
@@ -68,7 +68,7 @@
             100% { transform: scale(1.2) rotate(-45deg); }
         }
 
-        /* রঙের পরিবর্তন (১৫ সেকেন্ড ধরে বিভিন্ন রঙ হবে) */
+        /* রঙের পরিবর্তন (3 সেকেন্ড ধরে বিভিন্ন রঙ হবে) */
         @keyframes colorChange {
             0% { background-color: #ff3366; }
             25% { background-color: #9b59b6; }
@@ -85,7 +85,7 @@
             100% { background-color: #e74c3c; }
         }
 
-        /* ব্যাকগ্রাউন্ডে ছোট ছোট ভাসমান লাভ */
+        /* ব্যাকগ্রাউন্ডে ছোট ছোট কালার ফুল ভাসমান লাভ */
         .floating-heart {
             position: absolute;
             font-size: 24px;
@@ -143,7 +143,7 @@
         function createFloatingHeart() {
             const heart = document.createElement('div');
             heart.classList.add('floating-heart');
-            heart.innerHTML = '❤️';
+            heart.innerHTML = '💓';
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
             document.body.appendChild(heart);
@@ -156,13 +156,13 @@
         // প্রতি ৫০০ মিলিসেকেন্ড পর পর ভাসমান হার্ট তৈরি হবে
         const heartInterval = setInterval(createFloatingHeart, 500);
 
-        // ১৫ সেকেন্ড পর অ্যানিমেশন বন্ধ করে মেসেজ দেখানো
+        // 3 সেকেন্ড পর অ্যানিমেশন বন্ধ করে মেসেজ দেখানো
         setTimeout(() => {
             clearInterval(heartInterval); // ভাসমান হার্ট তৈরি বন্ধ করা
             document.getElementById('animation-container').style.display = 'none'; // অ্যানিমেশন লুকানো
             document.getElementById('message-container').style.display = 'block'; // মেসেজ দেখানো
 
-            // মেসেজ দেখানোর ৫ সেকেন্ড পর ওয়েবসাইট থেকে বের করে গুগল ক্রোম বা গুগলে রিডাইরেক্ট করা
+            // মেসেজ দেখানোর 5 সেকেন্ড পর ওয়েবসাইট থেকে বের করে গুগল ক্রোম বা গুগলে রিডাইরেক্ট করা
             setTimeout(() => {
                 window.location.href = "https://www.google.com";
             }, 5000); // ৫০০০ মিলিসেকেন্ড = ৫ সেকেন্ড
