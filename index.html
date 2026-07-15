@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>15 সেকেন্ড পর একটি উপহার আছে  💖</title>
+    <title>বিশেষ উপহার!</title>
     <style>
         * {
             margin: 0;
@@ -12,162 +12,60 @@
         }
 
         body {
-            background-color: #1a1a1a;
-            color: #fff;
+            background-color: #050505;
+            overflow: hidden;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden;
-            text-align: center;
+            color: #fff;
         }
 
-        /* লাভ অ্যানিমেশন কন্টেইনার */
-        #animation-container {
-            display: block;
-        }
-
-        /* বড় লাফ (Heart) অ্যানিমেশন */
-        .heart {
-            background-color: #ff3366;
-            display: inline-block;
-            height: 100px;
-            margin: 0 10px;
-            position: relative;
-            top: 0;
-            transform: rotate(-45deg);
-            width: 100px;
-            animation: beat 1s infinite alternate, colorChange 15s infinite;
-        }
-
-        .heart:before,
-        .heart:after {
-            content: "";
-            background-color: #ff3366;
-            border-radius: 50%;
-            height: 100px;
+        /* ক্যানভাস (পার্টিকেল হার্টের জন্য) */
+        canvas {
             position: absolute;
-            width: 100px;
-            animation: colorChangeSub 15s infinite;
-        }
-
-        .heart:before {
-            top: -50px;
+            top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
 
-        .heart:after {
-            top: 0;
-            left: 50px;
-        }
-
-        /* হার্টবিট অ্যানিমেশন */
-        @keyframes beat {
-            0% { transform: scale(1) rotate(-45deg); }
-            100% { transform: scale(1.2) rotate(-45deg); }
-        }
-
-        /* রঙের পরিবর্তন (3 সেকেন্ড ধরে বিভিন্ন রঙ হবে) */
-        @keyframes colorChange {
-            0% { background-color: #ff3366; }
-            25% { background-color: #9b59b6; }
-            50% { background-color: #3498db; }
-            75% { background-color: #2ecc71; }
-            100% { background-color: #e74c3c; }
-        }
-
-        @keyframes colorChangeSub {
-            0% { background-color: #ff3366; }
-            25% { background-color: #9b59b6; }
-            50% { background-color: #3498db; }
-            75% { background-color: #2ecc71; }
-            100% { background-color: #e74c3c; }
-        }
-
-        /* ব্যাকগ্রাউন্ডে ছোট ছোট কালার ফুল ভাসমান লাভ */
-        .floating-heart {
+        /* টেক্সট স্টাইল */
+        .message-container {
             position: absolute;
-            font-size: 24px;
-            color: #ff3366;
-            animation: float Up 4s linear infinite;
+            z-index: 2;
+            text-align: center;
             opacity: 0;
+            transform: scale(0.8);
+            transition: all 1s ease;
+            pointer-events: none;
         }
 
-        @keyframes floatUp {
-            0% {
-                transform: translateY(100vh) scale(0.5);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-10vh) scale(1.5);
-                opacity: 0;
-            }
-        }
-
-        /* শেষ মেসেজ স্ক্রিন */
-        #message-container {
-            display: none;
-            padding: 20px;
+        .message-container.show {
+            opacity: 1;
+            transform: scale(1);
         }
 
         h1 {
             font-size: 2.5rem;
-            line-height: 1.5;
-            color: #ffeb3b;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-            animation: popIn 0.5s ease-out;
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+            color: #ff3366;
+            text-shadow: 0 0 10px rgba(255, 51, 102, 0.8), 0 0 20px rgba(255, 51, 102, 0.5);
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px 30px;
+            border-radius: 15px;
+            border: 2px solid #ff3366;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
 
-    <!-- ১. অ্যানিমেশন স্ক্রিন -->
-    <div id="animation-container">
-        <div class="heart"></div>
-        <p style="margin-top: 40px; font-size: 18px; color: #aaa;">আপনার জন্য একটি বিশেষ উপহার লোড হচ্ছে...</p>
+    <canvas id="heartCanvas"></canvas>
+
+    <div class="message-container" id="message">
+        <h1>কিরে বোদাই তর নানিকে Love You 💓</h1>
     </div>
 
-    <!-- ২. শেষ মেসেজ স্ক্রিন -->
-    <div id="message-container">
-        <h1>কিরে বোকাচোদা, এতক্ষণ দেখার জন্য তোর নানিকে ধন্যবাদ! 🙏</h1>
-    </div>
-
-    <script>
-        // ব্যাকগ্রাউন্ডে ভাসমান হার্ট তৈরি করার ফাংশন
-        function createFloatingHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('floating-heart');
-            heart.innerHTML = '💓';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
-        }
-
-        // প্রতি ৫০০ মিলিসেকেন্ড পর পর ভাসমান হার্ট তৈরি হবে
-        const heartInterval = setInterval(createFloatingHeart, 500);
-
-        // 3 সেকেন্ড পর অ্যানিমেশন বন্ধ করে মেসেজ দেখানো
-        setTimeout(() => {
-            clearInterval(heartInterval); // ভাসমান হার্ট তৈরি বন্ধ করা
-            document.getElementById('animation-container').style.display = 'none'; // অ্যানিমেশন লুকানো
-            document.getElementById('message-container').style.display = 'block'; // মেসেজ দেখানো
-
-            // মেসেজ দেখানোর 5 সেকেন্ড পর ওয়েবসাইট থেকে বের করে গুগল ক্রোম বা গুগলে রিডাইরেক্ট করা
-            setTimeout(() => {
-                window.location.href = "https://www.google.com";
-            }, 5000); // ৫০০০ মিলিসেকেন্ড = ৫ সেকেন্ড
-
-        }, 15000); // ১৫০০০ মিলিসেকেন্ড = ১৫ সেকেন্ড
-    </script>
-</body>
-</html>
+    
